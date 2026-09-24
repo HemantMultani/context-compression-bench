@@ -1,0 +1,23 @@
+[project]
+name = "context-compression-bench"
+version = "0.1.0"
+description = "Experimentally evaluate whether large context documents can be compressed/indexed without losing usefulness to an LLM."
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Hemant Multani"}]
+dependencies = ["tiktoken", "requests"]
+
+[project.optional-dependencies]
+compress = ["llmlingua", "torch", "transformers==4.44.2", "tokenizers<0.20", "huggingface_hub"]
+gemini = ["google-genai>=1.0"]
+dev = ["pytest"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["context_bench*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

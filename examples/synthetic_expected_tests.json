@@ -1,0 +1,410 @@
+{
+  "description": "Hand-written tests for examples/synthetic_engineering_guide.md (3 per category). critical_facts are verbatim phrases from the document.",
+  "tests": [
+    {
+      "id": "MA-01",
+      "category": "A",
+      "question": "What is the maximum number of downstream synchronous calls that a single request handled by a service may make?",
+      "expected_answer": "At most 8 downstream synchronous calls; parallel fan-out calls still count.",
+      "source_sections": [
+        "S2.1"
+      ],
+      "critical_facts": [
+        "at most 8 downstream synchronous calls"
+      ],
+      "difficulty": "easy",
+      "origin": "manual"
+    },
+    {
+      "id": "MA-02",
+      "category": "A",
+      "question": "How long do access tokens and refresh tokens last?",
+      "expected_answer": "Access tokens expire after 15 minutes and refresh tokens after 24 hours.",
+      "source_sections": [
+        "S4.1"
+      ],
+      "critical_facts": [
+        "Access tokens expire after 15 minutes",
+        "Refresh tokens expire after 24 hours"
+      ],
+      "difficulty": "easy",
+      "origin": "manual"
+    },
+    {
+      "id": "MA-03",
+      "category": "A",
+      "question": "Which database engine is the standard, and which tool must be used for schema changes?",
+      "expected_answer": "PostgreSQL 15, with schema changes made only through Alembic migrations.",
+      "source_sections": [
+        "S5.1"
+      ],
+      "critical_facts": [
+        "PostgreSQL 15",
+        "Alembic migrations"
+      ],
+      "difficulty": "easy",
+      "origin": "manual"
+    },
+    {
+      "id": "MB-01",
+      "category": "B",
+      "question": "A client sends a POST that creates a payment but omits the idempotency header. What does the server do?",
+      "expected_answer": "It rejects the request with HTTP 422.",
+      "source_sections": [
+        "S6.3"
+      ],
+      "critical_facts": [
+        "Idempotency-Key",
+        "rejected with HTTP 422"
+      ],
+      "difficulty": "medium",
+      "origin": "manual"
+    },
+    {
+      "id": "MB-02",
+      "category": "B",
+      "question": "An engineer has written a 75-line function (excluding docstrings and blank lines) in a normal service module. Is that acceptable?",
+      "expected_answer": "No. A function must not exceed 60 lines; it should be split into smaller functions.",
+      "source_sections": [
+        "S3.3"
+      ],
+      "critical_facts": [
+        "must not exceed 60 lines"
+      ],
+      "difficulty": "medium",
+      "origin": "manual"
+    },
+    {
+      "id": "MB-03",
+      "category": "B",
+      "question": "A pull request changes only documentation. How many reviewer approvals does it need?",
+      "expected_answer": "One reviewer.",
+      "source_sections": [
+        "S10.1"
+      ],
+      "critical_facts": [
+        "needs approval from 1 reviewer"
+      ],
+      "difficulty": "easy",
+      "origin": "manual"
+    },
+    {
+      "id": "MC-01",
+      "category": "C",
+      "question": "Can a database query ever run longer than the standard 30 second timeout, and if so where?",
+      "expected_answer": "Only on the reporting replica, where it may run up to 120 seconds; not on the primary database.",
+      "source_sections": [
+        "S5.2"
+      ],
+      "critical_facts": [
+        "reporting replica",
+        "up to 120 seconds"
+      ],
+      "difficulty": "medium",
+      "origin": "manual"
+    },
+    {
+      "id": "MC-02",
+      "category": "C",
+      "question": "If a payment capture fails, is it retried automatically, and how is the failure handled?",
+      "expected_answer": "No, capture is never retried automatically; the payments operations team reconciles it manually using the original idempotency key.",
+      "source_sections": [
+        "S7.3"
+      ],
+      "critical_facts": [
+        "never retried automatically",
+        "reconciled manually by the payments operations team"
+      ],
+      "difficulty": "hard",
+      "origin": "manual"
+    },
+    {
+      "id": "MC-03",
+      "category": "C",
+      "question": "Which endpoints do not require authentication, and why?",
+      "expected_answer": "The /healthz and /readyz health endpoints, because the orchestrator must be able to probe them.",
+      "source_sections": [
+        "S4.4"
+      ],
+      "critical_facts": [
+        "/healthz",
+        "/readyz",
+        "orchestrator"
+      ],
+      "difficulty": "medium",
+      "origin": "manual"
+    },
+    {
+      "id": "MD-01",
+      "category": "D",
+      "question": "What error-rate threshold pages the on-call engineer, and what else happens at that same threshold during a canary rollout?",
+      "expected_answer": "2 percent; during a canary rollout the release is rolled back automatically.",
+      "source_sections": [
+        "S9.4",
+        "S10.2"
+      ],
+      "critical_facts": [
+        "error rate exceeds 2 percent",
+        "rolled back automatically"
+      ],
+      "difficulty": "hard",
+      "origin": "manual"
+    },
+    {
+      "id": "MD-02",
+      "category": "D",
+      "question": "Code in the gen/ directory is exempt from which requirements?",
+      "expected_answer": "The function size limit, the complexity limit, and the coverage requirement (Section 8.1).",
+      "source_sections": [
+        "S3.3",
+        "S8.1"
+      ],
+      "critical_facts": [
+        "gen/",
+        "function size limit",
+        "coverage"
+      ],
+      "difficulty": "hard",
+      "origin": "manual"
+    },
+    {
+      "id": "MD-03",
+      "category": "D",
+      "question": "How many times may a deadlocked write to a ledger table be retried, and can that ledger row ever be updated in place?",
+      "expected_answer": "At most 2 times; ledger tables are append-only so rows are never updated in place (corrections are compensating entries).",
+      "source_sections": [
+        "S5.3",
+        "S7.3"
+      ],
+      "critical_facts": [
+        "at most 2 times",
+        "append-only"
+      ],
+      "difficulty": "hard",
+      "origin": "manual"
+    },
+    {
+      "id": "ME-01",
+      "category": "E",
+      "question": "What must never be written to logs, traces or metrics labels?",
+      "expected_answer": "PII (personally identifiable information); tokens and secrets must not be logged either.",
+      "source_sections": [
+        "S4.3"
+      ],
+      "critical_facts": [
+        "PII must never be written to logs, traces or metrics labels"
+      ],
+      "difficulty": "easy",
+      "origin": "manual"
+    },
+    {
+      "id": "ME-02",
+      "category": "E",
+      "question": "Which TLS versions are forbidden?",
+      "expected_answer": "TLS 1.2 and older are forbidden everywhere; TLS 1.3 or higher is required.",
+      "source_sections": [
+        "S4.2"
+      ],
+      "critical_facts": [
+        "TLS 1.2 and older are forbidden everywhere"
+      ],
+      "difficulty": "easy",
+      "origin": "manual"
+    },
+    {
+      "id": "ME-03",
+      "category": "E",
+      "question": "What is not allowed in database queries regarding column selection and batch size?",
+      "expected_answer": "Queries must never use SELECT *, and operating on more than 500 rows in a single statement is not allowed.",
+      "source_sections": [
+        "S5.2"
+      ],
+      "critical_facts": [
+        "must never use SELECT *",
+        "more than 500 rows in a single statement is not allowed"
+      ],
+      "difficulty": "medium",
+      "origin": "manual"
+    },
+    {
+      "id": "MF-01",
+      "category": "F",
+      "question": "What is the Settlement Window?",
+      "expected_answer": "The daily period from 02:00 to 02:30 UTC during which merchant balances are settled.",
+      "source_sections": [
+        "S12"
+      ],
+      "critical_facts": [
+        "02:00 to 02:30 UTC"
+      ],
+      "difficulty": "easy",
+      "origin": "manual"
+    },
+    {
+      "id": "MF-02",
+      "category": "F",
+      "question": "From which base class must all custom exceptions inherit?",
+      "expected_answer": "LedgerlineError.",
+      "source_sections": [
+        "S7.2"
+      ],
+      "critical_facts": [
+        "LedgerlineError"
+      ],
+      "difficulty": "easy",
+      "origin": "manual"
+    },
+    {
+      "id": "MF-03",
+      "category": "F",
+      "question": "What is break-glass access and who must approve it?",
+      "expected_answer": "Emergency production access during an incident; it requires approval from two engineers.",
+      "source_sections": [
+        "S4.4"
+      ],
+      "critical_facts": [
+        "break-glass production access during an incident",
+        "approval from two engineers"
+      ],
+      "difficulty": "medium",
+      "origin": "manual"
+    },
+    {
+      "id": "MG-01",
+      "category": "G",
+      "question": "What are the exact retry backoff parameters (base delay, growth, cap and jitter)?",
+      "expected_answer": "Base delay 250 milliseconds, doubling on each attempt, capped at 2 seconds, plus random jitter of up to 25 percent.",
+      "source_sections": [
+        "S7.3"
+      ],
+      "critical_facts": [
+        "base delay of 250 milliseconds",
+        "capped at 2 seconds",
+        "jitter of up to 25 percent"
+      ],
+      "difficulty": "medium",
+      "origin": "manual"
+    },
+    {
+      "id": "MG-02",
+      "category": "G",
+      "question": "What are the minimum line-coverage requirements overall and for payments/core?",
+      "expected_answer": "At least 85 percent overall and at least 95 percent for the payments/core package.",
+      "source_sections": [
+        "S8.1"
+      ],
+      "critical_facts": [
+        "at least 85 percent",
+        "at least 95 percent line coverage"
+      ],
+      "difficulty": "medium",
+      "origin": "manual"
+    },
+    {
+      "id": "MG-03",
+      "category": "G",
+      "question": "When does the circuit breaker open and how long does it stay open?",
+      "expected_answer": "After 5 consecutive failures, and it stays open for 30 seconds before going half-open.",
+      "source_sections": [
+        "S7.3"
+      ],
+      "critical_facts": [
+        "opens after 5 consecutive failures",
+        "stays open for 30 seconds"
+      ],
+      "difficulty": "medium",
+      "origin": "manual"
+    },
+    {
+      "id": "MB-04",
+      "category": "B",
+      "question": "REVIEW SCENARIO. A PR adds a request handler that calls 9 different downstream services synchronously. What should the review say?",
+      "expected_answer": "It exceeds the limit of 8 downstream synchronous calls per request; it must be redesigned as an asynchronous workflow using events.",
+      "source_sections": [
+        "S2.1"
+      ],
+      "critical_facts": [
+        "at most 8 downstream synchronous calls",
+        "redesigned as an asynchronous workflow"
+      ],
+      "difficulty": "medium",
+      "origin": "manual"
+    },
+    {
+      "id": "MB-05",
+      "category": "B",
+      "question": "REVIEW SCENARIO. A PR adds a list endpoint and its docs tell clients they can pass page_size=500. What is wrong with this?",
+      "expected_answer": "The maximum page size is 200 items; requests above 200 are rejected with HTTP 400 (not silently truncated).",
+      "source_sections": [
+        "S6.2"
+      ],
+      "critical_facts": [
+        "maximum page size is 200 items",
+        "rejected with HTTP 400"
+      ],
+      "difficulty": "medium",
+      "origin": "manual"
+    },
+    {
+      "id": "ME-04",
+      "category": "E",
+      "question": "REVIEW SCENARIO. A PR logs the customer's phone number and the OAuth access token at INFO level 'for debugging'. Which rules does it violate?",
+      "expected_answer": "PII must never be written to logs, and tokens must never be logged.",
+      "source_sections": [
+        "S4.1",
+        "S4.3"
+      ],
+      "critical_facts": [
+        "PII must never be written to logs, traces or metrics labels",
+        "Tokens must never be logged"
+      ],
+      "difficulty": "medium",
+      "origin": "manual"
+    },
+    {
+      "id": "MC-04",
+      "category": "C",
+      "question": "REVIEW SCENARIO. A PR wraps the payment capture call in an automatic retry loop of 5 attempts. What is the review verdict?",
+      "expected_answer": "Reject: payment capture is never retried automatically (it is reconciled manually with the original idempotency key), and retries are capped at 3 anyway.",
+      "source_sections": [
+        "S7.3"
+      ],
+      "critical_facts": [
+        "never retried automatically",
+        "at most 3 times"
+      ],
+      "difficulty": "hard",
+      "origin": "manual"
+    },
+    {
+      "id": "MD-04",
+      "category": "D",
+      "question": "REVIEW SCENARIO. A PR adds an index on a table with 40 million rows using a plain CREATE INDEX, and its migration has no downgrade step. What must change?",
+      "expected_answer": "The index must be created with the CONCURRENTLY option (table over 10 million rows), and the migration must be reversible with a working downgrade.",
+      "source_sections": [
+        "S5.4",
+        "S5.1"
+      ],
+      "critical_facts": [
+        "CONCURRENTLY",
+        "must be reversible"
+      ],
+      "difficulty": "hard",
+      "origin": "manual"
+    },
+    {
+      "id": "ME-05",
+      "category": "E",
+      "question": "REVIEW SCENARIO. It is December 20 and a team wants to deploy a non-urgent feature to production. Is that allowed?",
+      "expected_answer": "No: production deployments are frozen from December 15 until January 5 (only rollbacks and VP-approved hotfixes are exceptions).",
+      "source_sections": [
+        "S10.3"
+      ],
+      "critical_facts": [
+        "frozen from December 15 until January 5"
+      ],
+      "difficulty": "medium",
+      "origin": "manual"
+    }
+  ]
+}
